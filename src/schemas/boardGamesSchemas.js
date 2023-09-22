@@ -1,7 +1,4 @@
-import BaseJoi from 'joi'
-import JoiDate from '@joi/date'
-
-const joi = BaseJoi.extend(JoiDate)
+import joi from 'joi'
 
 export const boardGamesSchema = joi.object( {
     name: joi.string().required(),

@@ -3,8 +3,8 @@ import db from "../database/databaseConfig.js"
 export async function getBoardGames (request, response) {
 
     try {
-        const boardGames = await db.query(`SELECT * FROM games;`)
-        response.send(boardGames.rows)
+        const listOfBoardGames = await db.query(`SELECT * FROM games;`)
+        response.send(listOfBoardGames.rows)
 
     } catch (error) { response.status(500).send(error.message) }
 }
