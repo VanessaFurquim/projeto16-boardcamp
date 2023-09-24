@@ -105,3 +105,21 @@ export async function finalizeRental (request, response) {
 
     } catch (error) { return response.status(500).send(error.message) }
 }
+
+export async function deleteRental (request, response) {
+    const { id } = request.params
+
+    try {
+        const isRentalExistent = await db.query(`SELECT * FROM rentals WHERE id = $1`, [id])
+        if (isRentalExistent.rowCount === 0) return response.sendStatus(404)
+
+        const isRentalFinalized = await db.query(`SELECT "returnDate" FROM rentals WHERE id = $1;`, [id])
+        console.log(isRentalFinalized)
+        if (isRentalFinalized.rows[0].returnDate === null) return response.sendStatus(400)
+
+        await db.query(`DELETE FROM rentals WHERE id = $1;`, [id])
+
+        response.sendStatus(200)
+
+    } catch (error) { return response.status(500).send(error.message) }
+}

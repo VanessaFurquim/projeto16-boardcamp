@@ -42,12 +42,7 @@ export async function updateCustomersInformation (request, response) {
     try {
         const isCPFRegistered = await db.query(`SELECT * FROM customers WHERE cpf = $1`, [cpf])
 
-        if (isCPFRegistered.rowCount === 0) return response.status(404).send("Nenhum registro foi encontrado com esse CPF.")
-
-        console.log(isCPFRegistered.rows[0].id)
-        console.log(typeof(isCPFRegistered.rows[0].id))
-        console.log(id)
-        console.log(typeof(parseInt(id)))
+        // if (isCPFRegistered.rowCount === 0) return response.status(404).send("Nenhum registro foi encontrado com esse CPF.")
 
         if (isCPFRegistered.rowCount !== 0 && isCPFRegistered.rows[0].id !== parseInt(id)) return response.sendStatus(409)
         // VALIDAÇÃO**:
@@ -55,9 +50,6 @@ export async function updateCustomersInformation (request, response) {
 
         // ERRO > se CPF existir e IDs forem diferentes      >>> ERRO**
         //        se CPF não existir                         >>> OK
-
-        console.log(isCPFRegistered.rowCount)
-        console.log(isCPFRegistered.rows)
 
         await db.query(`UPDATE customers SET name = $1, phone = $2, cpf = $3, birthday = $4 WHERE id = $5;`, [name, phone, cpf, birthday, id])
         
