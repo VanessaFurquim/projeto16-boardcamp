@@ -3,7 +3,8 @@ import db from "../database/databaseConfig.js"
 export async function getCustumers (request, response) {
 
     try {
-        const listOfCustomers = await db.query(`SELECT * FROM customers;`)
+        const listOfCustomers = await db.query(`SELECT *, to_char(birthday, 'YYYY-MM-DD') AS birthday FROM customers;`)
+
         response.send(listOfCustomers.rows)
 
     } catch (error) { response.status(500).send(error.message) }
