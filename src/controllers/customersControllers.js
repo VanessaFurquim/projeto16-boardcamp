@@ -14,7 +14,7 @@ export async function getCustomerById (request, response) {
     const { id } = request.params
 
     try {
-        const isClientIdExistent = await db.query(`SELECT * FROM customers WHERE id = $1`, [id])
+        const isClientIdExistent = await db.query(`SELECT *, to_char(birthday, 'YYYY-MM-DD') AS birthday FROM customers WHERE id = $1`, [id])
         if (isClientIdExistent.rowCount === 0) return response.sendStatus(404)
 
         response.send(isClientIdExistent.rows[0])
